@@ -20,10 +20,10 @@ type FieldType = {
 export default function Login() {
   const loginRequest = async (data: any) => {
     const res = await axios.post(`/auth/login`, data);
-    return res;
+    return res.data;
   };
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const respone = loginRequest(values);
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    const respone = await loginRequest(values);
     localStorage.setItem("token", respone.access_token);
     redirect("/");
   };
