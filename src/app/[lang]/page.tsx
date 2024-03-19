@@ -3,9 +3,10 @@ import Image from "next/image";
 import { Flex, Layout, Space, Table, Tag } from "antd";
 import HeaderComponent from "@/components/HeaderComponent";
 import { useEffect, useState } from "react";
-import axios from "../axios/axios";
+import axios from "../../axios/axios";
 import ColumnGroup from "antd/es/table/ColumnGroup";
 import Column from "antd/es/table/Column";
+import useTrans from "@/lib/useTrans";
 
 const { Content } = Layout;
 
@@ -33,7 +34,8 @@ interface DataType {
   last_accessed: Date;
   license_use?: license_type[];
 }
-export default function Home() {
+export default function LangHome() {
+  const trans = useTrans();
   const [record, setRecord] = useState<DataType[]>([]);
 
   const fetchProject: any = async () => {
@@ -41,6 +43,8 @@ export default function Home() {
     return res.data;
   };
   useEffect(() => {
+    console.log("test");
+
     const data = fetchProject();
     setRecord(data.results);
   }, []);
@@ -51,29 +55,28 @@ export default function Home() {
         <Content style={contentStyle}>
           <Table dataSource={record}>
             <Column
-              title="Project Name"
+              title={trans.home.table.project_name_title}
               dataIndex="project_name"
               key="project_name"
             />
-            <Column title="Address" dataIndex="address" key="address" />
             <Column
-              title="Project Domain"
+              title={trans.home.table.project_domain_title}
               dataIndex="project_domain"
               key="project_domain"
             />
             <Column
-              title="Last Accessed"
+              title={trans.home.table.last_accessed_title}
               dataIndex="last_accessed"
               key="last_accessed"
             />
-            <ColumnGroup title="License Use">
+            <ColumnGroup title={trans.home.table.license_use_title}>
               <Column
-                title="License Type"
+                title={trans.home.table.license_type_title}
                 dataIndex="license_type"
                 key="license_type"
               />
               <Column
-                title="Libraries"
+                title={trans.home.table.libraries_title}
                 dataIndex="libraries"
                 key="libraries"
                 render={(libraries: string[]) => (
